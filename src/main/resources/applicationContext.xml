@@ -24,14 +24,18 @@
         			<prop key="hibernate.fomat_sql">true</prop><!-- 是否格式化SQL -->
 	        		<prop key="hibernate.show_sql">true</prop><!-- 是否展示SQL -->
 	                <prop key="hibernate.hbm2ddl.auto">update</prop><!-- 是否自动创建表结构 -->
-	                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+	                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop><!-- 指定数据库方言 -->
+	                <prop key="hibernate.c3p0.max_statements">100</prop><!-- 指定连接池里最大缓存多少个Statement对象 -->
+	                <prop key="hibernate.c3p0.idle_test_period">3000</prop>
+	                <prop key="hibernate.c3p0.acquire_increment">2</prop>
+	                <prop key="hibernate.c3p0.validate">true</prop>
         		</props>
         	</property>
         		
         	<!-- 加载Hibernate中的映射文件 -->
         	<property name="mappingResources">
         		<list>
-        			<value>User.hbm.xml</value>
+        			<value>com/ssh/domain/User.hbm.xml</value>
         		</list>
         	</property>
         </bean>
