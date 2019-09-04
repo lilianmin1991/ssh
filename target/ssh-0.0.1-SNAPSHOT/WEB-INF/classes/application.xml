@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa" 
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/data/jpa 
+       http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+       http://cxf.apache.org/jaxws 
+       http://cxf.apache.org/schemas/jaxws.xsd
+       ">
+	<!--  
+	class的值是包名.类名 ④scope="prototype"是非单例，但一定要写这句代码，记住有这回事就行 -->
+	<bean id="userAction" class="com.czxy.action.UserAction" scope="prototype">
+		<!-- ①name的值是要注入的变量名 ②ref是引用类的类名，name为“is”的变量引用的是myIndexService的值 -->
+		<property name="userService" ref="userService" />
+	</bean>
+
+	<!-- myIndexService = new ssh.service.IndexServiceImpl() id为myIndexService的bean对应项目中的IndexService类 -->
+	<bean id="userService" class="com.czxy.service.UserService" scope="prototype">
+		<!-- name为id的变量引用的是myIndexDao的值 -->
+		<property name="userDao" ref="userDao" />
+	</bean>
+
+	<bean id="userDao" class="com.czxy.dao.UserDao" scope="prototype">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource2"/>
+		<property name="hibernateProperties" >
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+			</props>
+		
+		</property>
+		
+		<!--  <property name="packagesToScan" value="com.czxy.domain"/>-->
+		
+		<property name="mappingLocations" value="classpath:com/czxy/domain/*.hbm.xml"/>
+	</bean>
+	
+	<!-- 配置连接池 -->
+	<bean id="dataSource2" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
+		<property name="user" value="root"/>
+		<property name="password" value="root"/>
+		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/test"/>
+		
+	</bean>
+	
+	<!-- hibernate的事务管理 
+		1.确定使用的是那个事务管理器，采用的hibernate的，hibernateTransactionManager
+		2.配置通知，明确哪些方法，去和进行事务管理
+		3.配置切面，确定哪些 类上使用通知
+	-->
+	
+	<!-- 确定事务管理器 -->
+	<bean id="txManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	
+	</bean>
+	
+	<!-- 配置通知 -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="save*"/>
+			<tx:method name="update*"/>
+			<tx:method name="delete*"/>
+			<tx:method name="findAll*" read-only="true"/>
+			<tx:method name="*" read-only="true"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- 配置切面 -->
+	<aop:config>
+		<aop:pointcut id="myPointCut" expression="execution(* com.czxy.service..*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="myPointCut"/>
+	</aop:config>
+	
+</beans>
