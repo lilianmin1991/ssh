@@ -7,11 +7,11 @@
 		（既可通过struts2，也可通过spring）。 官方推荐使用spring来创建 -->
 <struts>
 		
-	<package name="user" extends="struts-default" namespace="/">
+	<package name="ssh" extends="struts-default" namespace="/">
 		<!-- 在Struts2，action的class属性的值UserAction为在spring中创建的action的id名 -->
-		<action name="user_*" class="UserAction" method="{1}">
+		<action name="user_*" class="com.ssh.action.UserAction" method="{1}">
 			<!-- 配置result -->
-			<result name="success">/user.jsp</result>
+			<result name="success">/index.jsp</result>
 		</action>
 
 	</package>

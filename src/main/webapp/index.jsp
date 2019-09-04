@@ -8,10 +8,10 @@
 </head>
 <body>
 
-	<form action="user" method="post">
+	<form action="user_save" method="post">
 		用户名:<input type="text" name="name" id="name" value="" /> 密码:<input
-			type="password" name="pwd" id="password" value="" /> <input
-			type="submit" value="登录">
+			type="password" name="password" id="password" value="" /> <input
+			type="submit" value="保存">
 	</form>
 
 
