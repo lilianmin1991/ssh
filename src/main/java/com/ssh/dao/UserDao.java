@@ -6,7 +6,7 @@ import com.ssh.domain.User;
 
 public class UserDao extends HibernateDaoSupport{
 	public void save(User user) {
-		System.out.print("执行UserDao的save()方法");
+		System.out.println("执行UserDao的save()方法");
 		this.getHibernateTemplate().save(user);
 	}
 }

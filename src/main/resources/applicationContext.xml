@@ -32,15 +32,19 @@
         		</props>
         	</property>
         		
-        	<!-- 加载Hibernate中的映射文件 -->
-        	<property name="mappingResources">
+	        	<!-- 加载Hibernate中的映射文件 -->
+	        	<!-- mappingResources：指定classpath下具体映射文件名 ;mappingLocations：可以指定任何文件路径，并且可以指定前缀：classpath、file等
+		        		 例如： classpath:com/company/domain/**/maps/*.hbm.xml
+		        		  注意:当有mappingLocations存在时，mappingResources中对hibernate映射文件的配置是不加载的，因此，需要把映射文件配置都放到mappingLocations中
+	        		 -->
+        	<property name="mappingLocations">
         		<list>
-        			<value>com/ssh/domain/User.hbm.xml</value>
+        			<value>classpath:com/ssh/domain/*.hbm.xml</value>
         		</list>
         	</property>
         </bean>
         	
-        <!-- 配置连接池 -->
+        <!-- 配置连接池，用于前面注入 -->
         <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         	<property name="driverClass" value="${jdbc.driverClass}" />
         	<property name="jdbcUrl" value="${jdbc.url}" />
@@ -52,7 +56,7 @@
         <bean id="userAction" class="com.ssh.action.UserAction">
         	<property name="userService" ref="userService"></property>
         </bean>
-        
+         
         <!-- 配置业务层的类 -->
         <bean id="userService" class="com.ssh.service.UserService">
         	<property name="userDao" ref="userDao"></property>
