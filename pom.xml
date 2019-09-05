@@ -11,7 +11,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- 统一各个框架版本 -->
         <struts.version>2.5.20</struts.version>
-        <spring.version>5.1.9.RELEASE</spring.version>
+        <spring.version>4.3.20.RELEASE</spring.version>
         <hibernate.version>5.4.4.Final</hibernate.version>
     </properties>
     
@@ -79,7 +79,7 @@
         <dependency>
             <groupId>com.mchange</groupId>
             <artifactId>c3p0</artifactId>
-            <version>0.9.5</version>
+            <version>0.9.5.4</version>
         </dependency>
         <!-- AspectJ依赖 -->
         <dependency>

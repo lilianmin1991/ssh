@@ -15,7 +15,7 @@ public class UserService {
 	}
 	
 	public void save(User user) {
-		System.out.print("执行UserService的save()方法");
+		System.out.println("执行UserService的save()方法");
 		userDao.save(user);
 	}
 }
