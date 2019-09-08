@@ -1,19 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE xml>
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2019-9-7 23:54:46 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping package="com.ssh.domain">
-	<!-- 标识一个类的xml映射,name为类名,table为表名 -->
-	<class name="User" table="tb_user">
-		<!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以 -->
+		<!-- 标识一个类的xml映射,name为类名,table为表名 -->
+	<class name="User" table="tb_user" dynamic-insert="true" dynamic-update="true">
+			<!-- 主键的设置,generator标识主键生成方式,因为native便于数据库的移植所以 -->
 		<id name="id" type="int">
 			<column name="id" />
+				<!-- native:	MySql主键自增长
+					 sequence:	Oracle主键自增长
+					 uuid:	长字符串，需要把模型ID改成String，由hibernate设置Id
+					 assigned:需要手动设置Id
+					-->
 			<generator class="native" />
 		</id>
-		<!-- 这里配了该类一个属性街道名称 name属性字段,column,数据库对应列 -->
-		<property name="name" type="string" column="name" />
-		<property name="mobile" type="string" column="mobile" />
-		<property name="email" type="string" column="email" />
-		<property name="password" type="string" column="password" />
-		
-		
+		<!-- 类属性 name,column数据库最顶字段名,一样的话可以省略配置column -->
+		<property name="name" type="string" column="name" length="16"/>
+		<property name="mobile" type="string"  />
+		<property name="email" type="string"  />
+		<property name="password" type="string"   />
 	</class>
 </hibernate-mapping>  
